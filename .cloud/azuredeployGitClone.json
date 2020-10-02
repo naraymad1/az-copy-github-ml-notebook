@@ -30,7 +30,7 @@
                 "description": "Specifies the name of the Azure app insights account to create."
             }
         },
-        "computeName": {
+        "computeInstance": {
             "defaultValue": "jpnb1",
             "type": "String",
             "metadata": {
@@ -51,7 +51,7 @@
                 "description": "Specifies the SKU size for interactive and remote compute."
             }
         },
-        "gitrepo": {
+        "gitRepo": {
             "type": "String",
             "metadata": {
                 "description": "Specifies the SKU size for interactive and remote compute."
@@ -63,7 +63,7 @@
                 "description": "Specifies the SKU size for interactive and remote compute."
             }
         },
-        "targetdirUnderUser": {
+        "targetDirUnderUser": {
             "type": "String",
             "metadata": {
                 "description": "Specifies the SKU size for interactive and remote compute."
@@ -91,7 +91,7 @@
         "storageAccount": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
         "keyVault": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
         "applicationInsights": "[resourceId('Microsoft.Insights/components', parameters('applicationInsightsName'))]",
-        "url":"[concat('https://ml.azure.com/fileexplorerAzNB?wsid=',resourceGroup().id, '/workspaces/', parameters('workspaceName'), '&activeFilePath=Users/', parameters('targetdirUnderUser'),parameters('notebookRelativePathInRepo'))]",
+        "url":"[concat('https://ml.azure.com/fileexplorerAzNB?wsid=',resourceGroup().id, '/workspaces/', parameters('workspaceName'), '&activeFilePath=Users/', parameters('targetDirUnderUser'),parameters('notebookRelativePathInRepo'))]",
         "bootstrapRoleAssignmentId": "[guid(concat(resourceGroup().id, 'contributor'))]",
         "contributorRoleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
         "fileShareName":"code-391ff5ac-6576-460f-ba4d-7e03433c68b6"
@@ -192,7 +192,7 @@
         {
             "type": "Microsoft.MachineLearningServices/workspaces/computes",
             "apiVersion": "2020-06-01",
-            "name": "[concat(parameters('workspaceName'), '/', parameters('computeName'))]",
+            "name": "[concat(parameters('workspaceName'), '/', parameters('computeInstance'))]",
             "location": "[parameters('location')]",
             "properties": {
                 "computeType": "ComputeInstance",
@@ -221,7 +221,7 @@
             "location": "eastus",
             "dependsOn": [
                 "[parameters('workspaceName')]",
-                "[parameters('computeName')]",
+                "[parameters('computeInstance')]",
                 "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]",
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
             ],
@@ -238,7 +238,7 @@
                 },
                 "forceUpdateTag": "[parameters('utcValue')]",
                 "azCliVersion": "2.0.80",
-                "arguments": "[concat(parameters('storageAccountName'), ' ', variables('fileShareName'), ' ', parameters('targetdirUnderUser'), ' ', parameters('gitRepo'))]",
+                "arguments": "[concat(parameters('storageAccountName'), ' ', variables('fileShareName'), ' ', parameters('targetDirUnderUser'), ' ', parameters('gitRepo'))]",
                 "scriptContent": "git clone $4 Users/$3; az storage copy -s Users   --destination-account-name $1  --destination-share $2 --recursive",
                 "timeout": "PT30M",
                 "cleanupPreference": "OnSuccess",
