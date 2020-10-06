@@ -1,0 +1,56 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "defaultValue": "[resourceGroup().location]",
+            "type": "String",
+            "metadata": {
+                "description": "Specifies the SKU size for interactive and remote compute."
+            }
+        },
+        "identityName": {
+            "type": "String",
+            "metadata": {
+                "description": "Specifies the name of the user-assigned managed identity."
+            }
+        },
+        "utcValue": {
+            "defaultValue": "[utcNow()]",
+            "type": "String"
+        },
+        "tags": {
+            "defaultValue": {},
+            "type": "Object",
+            "metadata": {
+                "description": "Optional : Provide JSON object with 'key,value' pairs to add as tags on dataset. Example- {\"sampleTag1\": \"tagValue1\", \"sampleTag2\": \"tagValue2\"}"
+            }
+        }
+    },
+    "variables": {
+        "bootstrapRoleAssignmentId": "[guid(concat(resourceGroup().id, 'contributor'))]",
+        "contributorRoleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+            "apiVersion": "2018-11-30",
+            "name": "[parameters('identityName')]",
+            "location": "[resourceGroup().location]"
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-09-01-preview",
+            "name": "[variables('bootstrapRoleAssignmentId')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[variables('contributorRoleDefinitionId')]",
+                "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName')), '2018-11-30').principalId]",
+                "scope": "[resourceGroup().id]",
+                "principalType": "ServicePrincipal"
+            }
+        }
+    ]
+}
