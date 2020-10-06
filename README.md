@@ -22,13 +22,12 @@ Learn how Azure Machine Learning can help you streamline the building, training,
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https://raw.githubusercontent.com/naraymad1/az-copy-github-ml-notebook/master/.cloud/azuredeployGitClone.json)
 
 #### Contributor of the subscription
-    Ask the owner of subscription to create a managed identity on the resource group 
-    and assign contributor role to this identity, owner  may use the following template 
-    to create managed identity for the resource group and assign role.
+Ask the owner of subscription to create a managed identity on the resource group and assign contributor role to this identity, 
+owner may use the following template  to create managed identity for the resource group and assign role.
 [![Deploy(Owner) On Azure-identity](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnaraymad1%2Faz-copy-github-ml-notebook%2Fmaster%2F.cloud%2FazuredeployManagedIdentity.json)
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https://raw.githubusercontent.com/naraymad1/az-copy-github-ml-notebook/master/.cloud/azuredeployManagedIdentity.json)
 
-     Deploy the repo
+Deploy the repo 
 [![Deploy(Contributor) On Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnaraymad1%2Faz-copy-github-ml-notebook%2Fmaster%2F.cloud%2FazuredeployGitClone2.json)
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https://raw.githubusercontent.com/naraymad1/az-copy-github-ml-notebook/master/.cloud/azuredeployGitClone2.json)
 
