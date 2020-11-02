@@ -94,8 +94,9 @@
         "url":"[concat('https://ml.azure.com/fileexplorerAzNB?wsid=',resourceGroup().id, '/workspaces/', parameters('workspaceName'), '&activeFilePath=Users/', parameters('targetDirUnderUser'),parameters('notebookRelativePathInRepo'))]",
         "bootstrapRoleAssignmentId": "[guid(concat(resourceGroup().id, 'contributor'))]",
         "contributorRoleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
-        "fileShareName":"code-391ff5ac-6576-460f-ba4d-7e03433c68b6"
-    },
+        "fileShareName":"code-391ff5ac-6576-460f-ba4d-7e03433c68b6",
+        "workspaceResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaceName'))]"
+     },
     "resources": [
         {
             "type": "Microsoft.Storage/storageAccounts",
@@ -221,7 +222,13 @@
                 "scriptContent": "git clone $4 Users/$3; az storage copy -s Users   --destination-account-name $1  --destination-share $2 --recursive",
                 "timeout": "PT30M",
                 "cleanupPreference": "OnSuccess",
-                "retentionInterval": "P1D"
+                "retentionInterval": "P1D",
+                "environmentVariables": [
+                    {
+                        "name": "AZURE_STORAGE_KEY",
+                        "secureValue": "[listKeys(variables('workspaceResourceId'), '2020-09-01-preview').userStorageKey]"
+                    }
+                ]
             }
         }
     ],
