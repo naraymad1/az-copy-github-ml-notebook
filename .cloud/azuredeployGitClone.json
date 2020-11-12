@@ -238,7 +238,7 @@
                     "containerGroupName": null
                 },
                 "forceUpdateTag": "[parameters('utcValue')]",
-                "azCliVersion": "2.30.0",
+                "azCliVersion": "2.13.0",
                 "arguments": "[concat(parameters('storageAccountName'), ' ', variables('fileShareName'), ' ', parameters('targetDirUnderUser'), ' ', parameters('gitRepo'))]",
                 "scriptContent": "git clone $4 Users/$3; az storage copy -s Users   --destination-account-name $1  --destination-share $2 --recursive",
                 "timeout": "PT30M",
