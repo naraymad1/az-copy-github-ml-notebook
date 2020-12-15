@@ -69,12 +69,6 @@
                 "description": "Specifies the SKU size for interactive and remote compute."
             }
         },
-        "identityName": {
-            "type": "String",
-            "metadata": {
-                "description": "Specifies the name of the user-assigned managed identity."
-            }
-        },
         "utcValue": {
             "defaultValue": "[utcNow()]",
             "type": "String"
@@ -91,10 +85,10 @@
         "storageAccount": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
         "keyVault": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
         "applicationInsights": "[resourceId('Microsoft.Insights/components', parameters('applicationInsightsName'))]",
-        "url":"[concat('https://ml.azure.com/fileexplorerAzNB?wsid=',resourceGroup().id, '/workspaces/', parameters('workspaceName'), '&activeFilePath=Users/', parameters('targetDirUnderUser'),parameters('notebookRelativePathInRepo'))]",
+        "url": "[concat('https://ml.azure.com/fileexplorerAzNB?wsid=',resourceGroup().id, '/workspaces/', parameters('workspaceName'), '&activeFilePath=Users/', parameters('targetDirUnderUser'),parameters('notebookRelativePathInRepo'))]",
         "bootstrapRoleAssignmentId": "[guid(concat(resourceGroup().id, 'contributor'))]",
         "contributorRoleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
-        "fileShareName":"code-391ff5ac-6576-460f-ba4d-7e03433c68b6",
+        "fileShareName": "code-391ff5ac-6576-460f-ba4d-7e03433c68b6",
         "workspaceResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaceName'))]"
     },
     "resources": [
@@ -147,26 +141,6 @@
             }
         },
         {
-            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-            "apiVersion": "2018-11-30",
-            "name": "[parameters('identityName')]",
-            "location": "[resourceGroup().location]"
-        },
-        {
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2018-09-01-preview",
-            "name": "[variables('bootstrapRoleAssignmentId')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]"
-            ],
-            "properties": {
-                "roleDefinitionId": "[variables('contributorRoleDefinitionId')]",
-                "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName')), '2018-11-30').principalId]",
-                "scope": "[resourceGroup().id]",
-                "principalType": "ServicePrincipal"
-            }
-        },
-        {
             "type": "Microsoft.MachineLearningServices/workspaces",
             "apiVersion": "2020-03-01",
             "name": "[parameters('workspaceName')]",
@@ -191,23 +165,6 @@
             }
         },
         {
-            "type": "Microsoft.MachineLearningServices/workspaces/computes",
-            "apiVersion": "2020-06-01",
-            "name": "[concat(parameters('workspaceName'), '/', parameters('computeInstance'))]",
-            "location": "[parameters('location')]",
-            "properties": {
-                "computeType": "ComputeInstance",
-                "properties": {
-                    "vmSize": "[parameters('vmSize')]"
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]",
-                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaceName'))]",
-                "[parameters('storageAccountName')]"
-            ]
-        },
-        {
             "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
             "apiVersion": "2019-06-01",
             "name": "[concat(parameters('storageAccountName'), '/default/', variables('fileShareName'))]",
@@ -216,46 +173,34 @@
             ]
         },
         {
-            "type": "Microsoft.Resources/deploymentScripts",
-            "apiVersion": "2019-10-01-preview",
-            "name": "CopyRepo",
-            "location": "eastus",
+            "type": "Microsoft.MachineLearningServices/workspaces/computes",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('workspaceName'), '/', parameters('computeInstance'))]",
+            "location": "[parameters('location')]",
             "dependsOn": [
-                "[parameters('workspaceName')]",
-                "[parameters('computeInstance')]",
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaceName'))]",
+                "[parameters('storageAccountName')]"
             ],
-            "kind": "AzureCLI",
-            "identity": {
-                "type": "userAssigned",
-                "userAssignedIdentities": {
-                    "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]": {}
-                }
-            },
             "properties": {
-                "containerSettings": {
-                    "containerGroupName": null
-                },
-                "forceUpdateTag": "[parameters('utcValue')]",
-                "azCliVersion": "2.13.0",
-                "arguments": "[concat(parameters('storageAccountName'), ' ', variables('fileShareName'), ' ', parameters('targetDirUnderUser'), ' ', parameters('gitRepo'))]",
-                "scriptContent": "git clone $4 Users/$3; az storage copy -s Users   --destination-account-name $1  --destination-share $2 --recursive",
-                "timeout": "PT30M",
-                "cleanupPreference": "OnSuccess",
-                "retentionInterval": "P1D",
-                "environmentVariables": [
-                    {
-                        "name": "AZURE_STORAGE_KEY",
-                        "secureValue": "[listKeys(variables('workspaceResourceId'), '2020-09-01-preview').userStorageKey]"
+                "computeType": "ComputeInstance",
+                "properties": {
+                    "vmSize": "[parameters('vmSize')]",
+                    "setupScripts": {
+                        "scripts": {
+                            "creationScript": {
+                                "scriptSource": "inline",
+                                "scriptData": "Y2QgL21udC9iYXRjaC90YXNrcy9zaGFyZWQvTFNfcm9vdC9tb3VudHMvY2x1c3RlcnMvJDEvY29kZSAmJiBpZiBbIC1kICJVc2VycyIgXTsgdGhlbiBlY2hvICJVc2VycyBhbHJlYWR5IGNyZWF0ZWQiOyBlbHNlIG1rZGlyIFVzZXJzOyBmaSAmJiBpZiBbIC1kICIvdG1wLyQyIiBdOyB0aGVuICJlY2hvIC90bXAvJDIgYWxyZWFkeSBjcmVhdGVkIjsgZWxzZSBta2RpciAvdG1wLyQyOyBmaSAmJiBnaXQgY2xvbmUgJDMgL3RtcC8kMiAgLS1wcm9ncmVzcyAmJiBjcCAtUlAgL3RtcC8kMi8gLi9Vc2Vycy8=",
+                                "scriptArguments": "[concat(parameters('computeInstance'), ' ', parameters('targetDirUnderUser'), ' ', parameters('gitRepo'))]"
+                            }
+                        }
                     }
-                ]
+                }
             }
         }
     ],
     "outputs": {
         "result": {
-            "type": "string",
+            "type": "String",
             "value": "[variables('url')]"
         }
     }
