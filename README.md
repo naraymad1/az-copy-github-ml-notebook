@@ -17,16 +17,20 @@ Learn how Azure Machine Learning can help you streamline the building, training,
 # Getting Started
 
 ### Start exploring notebooks under the repo
-#### Owner of the subscription
 [![Deploy(Owner) On Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnaraymad1%2Faz-copy-github-ml-notebook%2Fmaster%2F.cloud%2FazuredeployGitClone.json)
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https://raw.githubusercontent.com/naraymad1/az-copy-github-ml-notebook/master/.cloud/azuredeployGitClone.json)
+
+
+This ARM template creates a workspace, compute instance and copy the specified git repo.
+You may navigate to the notebooks under the repo and exceutes using 
+the **Azure Notebooks** under the newly created compute instance
+
 ```
     Once the deployment is complete
     Click 'Output' on the left panel of the deployment screen 
     Copy the link and paste it to the browser and explore the repo content
 ```
 
-This ARM template creates a workspace, compute instance and copy the git repo specified in Azure Machine Learning.
 
 If you are new to Azure Machine Learning, see:
 
