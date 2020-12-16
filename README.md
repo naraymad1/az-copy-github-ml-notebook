@@ -22,8 +22,7 @@ Learn how Azure Machine Learning can help you streamline the building, training,
 
 
 This ARM template creates a workspace, compute instance and copy the specified git repo.
-You may navigate to the notebooks under the repo and exceutes using 
-the **Azure Notebooks**
+You may navigate to any notebooks under the repo and exceute using **Azure Notebooks**
 ```
     Once the deployment is complete
     Click 'Output' on the left panel of the deployment screen 
