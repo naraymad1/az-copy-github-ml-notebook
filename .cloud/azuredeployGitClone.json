@@ -2,6 +2,40 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+
+        "gitRepo": {
+            "type": "String",
+            "metadata": {
+                "description": "Specifies the SKU size for interactive and remote compute."
+            }
+        },
+        "targetDirUnderUser": {
+            "type": "String",
+            "metadata": {
+                "description": "Specifies the SKU size for interactive and remote compute."
+            }
+        },
+        "computeInstance": {
+            "defaultValue": "jpnb1",
+            "type": "String",
+            "metadata": {
+                "description": "The compute you want this job to run on"
+            }
+        },
+        "vmSize": {
+            "defaultValue": "Standard_DS2_v2",
+            "type": "String",
+            "metadata": {
+                "description": "Specifies the SKU size for interactive and remote compute."
+            }
+        },
+        "location": {
+            "defaultValue": "[resourceGroup().location]",
+            "type": "String",
+            "metadata": {
+                "description": "Specifies the SKU size for interactive and remote compute."
+            }
+        },
         "workspaceName": {
             "defaultValue": "gitclonews",
             "type": "String",
@@ -30,45 +64,6 @@
                 "description": "Specifies the name of the Azure app insights account to create."
             }
         },
-        "computeInstance": {
-            "defaultValue": "jpnb1",
-            "type": "String",
-            "metadata": {
-                "description": "The compute you want this job to run on"
-            }
-        },
-        "vmSize": {
-            "defaultValue": "Standard_DS2_v2",
-            "type": "String",
-            "metadata": {
-                "description": "Specifies the SKU size for interactive and remote compute."
-            }
-        },
-        "location": {
-            "defaultValue": "[resourceGroup().location]",
-            "type": "String",
-            "metadata": {
-                "description": "Specifies the SKU size for interactive and remote compute."
-            }
-        },
-        "gitRepo": {
-            "type": "String",
-            "metadata": {
-                "description": "Specifies the SKU size for interactive and remote compute."
-            }
-        },
-        "notebookRelativePathInRepo": {
-            "type": "String",
-            "metadata": {
-                "description": "Specifies the SKU size for interactive and remote compute."
-            }
-        },
-        "targetDirUnderUser": {
-            "type": "String",
-            "metadata": {
-                "description": "Specifies the SKU size for interactive and remote compute."
-            }
-        },
         "utcValue": {
             "defaultValue": "[utcNow()]",
             "type": "String"
@@ -85,7 +80,7 @@
         "storageAccount": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
         "keyVault": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
         "applicationInsights": "[resourceId('Microsoft.Insights/components', parameters('applicationInsightsName'))]",
-        "url": "[concat('https://ml.azure.com/fileexplorerAzNB?wsid=',resourceGroup().id, '/workspaces/', parameters('workspaceName'), '&activeFilePath=Users/', parameters('targetDirUnderUser'),parameters('notebookRelativePathInRepo'))]",
+        "url": "[concat('https://ml.azure.com/fileexplorerAzNB?wsid=',resourceGroup().id, '/workspaces/', parameters('workspaceName'), '&activeFilePath=Users/', parameters('targetDirUnderUser'))]",
         "bootstrapRoleAssignmentId": "[guid(concat(resourceGroup().id, 'contributor'))]",
         "contributorRoleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
         "fileShareName": "code-391ff5ac-6576-460f-ba4d-7e03433c68b6",

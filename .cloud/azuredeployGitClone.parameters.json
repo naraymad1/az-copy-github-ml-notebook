@@ -2,20 +2,38 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "workspaceName": {
-            "value": "mnarkdev1"
-        },
-        "computeName": {
-            "value": "jpnb1"
-        },
-        "fileShareName": {
-            "value": "code-391ff5ac-6576-460f-ba4d-7e03433c68b6"
-        },
-        "tags": {
-            "value": {}
-        },
-        "location": {
-            "value": "centraluseuap"
-        }
+      "gitRepo": {
+        "value": null
+      },
+      "targetDirUnderUser": {
+        "value": null
+      },
+      "computeInstance": {
+        "value": "jpnb1"
+      },
+      "vmSize": {
+        "value": "Standard_DS2_v2"
+      },
+      "location": {
+        "value": "[resourceGroup().location]"
+      },
+      "workspaceName": {
+        "value": "gitclonews"
+      },
+      "keyVaultName": {
+        "value": "[concat('kvgc', uniqueString(resourceGroup().id))]"
+      },
+      "storageAccountName": {
+        "value": "[concat('stgc', uniqueString(resourceGroup().id))]"
+      },
+      "applicationInsightsName": {
+        "value": "[concat('aigc', uniqueString(resourceGroup().id))]"
+      },
+      "utcValue": {
+        "value": "[utcNow()]"
+      },
+      "tags": {
+        "value": {}
+      }
     }
-}
+  }
