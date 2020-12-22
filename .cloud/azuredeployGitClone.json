@@ -184,7 +184,7 @@
                         "scripts": {
                             "creationScript": {
                                 "scriptSource": "inline",
-                                "scriptData": "Y2QgL21udC9iYXRjaC90YXNrcy9zaGFyZWQvTFNfcm9vdC9tb3VudHMvY2x1c3RlcnMvJDEvY29kZSAmJiBpZiBbIC1kICJVc2VycyIgXTsgdGhlbiBlY2hvICJVc2VycyBhbHJlYWR5IGNyZWF0ZWQiOyBlbHNlIG1rZGlyIFVzZXJzOyBmaSAmJiBpZiBbIC1kICIvdG1wLyQyIiBdOyB0aGVuICJlY2hvIC90bXAvJDIgYWxyZWFkeSBjcmVhdGVkIjsgZWxzZSBta2RpciAvdG1wLyQyOyBmaSAmJiBnaXQgY2xvbmUgJDMgL3RtcC8kMiAgLS1wcm9ncmVzcyAmJiBjcCAtUlAgL3RtcC8kMi8gLi9Vc2Vycy8=",
+                                "scriptData": "Y2QgL21udC9iYXRjaC90YXNrcy9zaGFyZWQvTFNfcm9vdC9tb3VudHMvY2x1c3RlcnMvJDEvY29kZSAmJiBpZiBbIC1kICJVc2VycyIgXTsgdGhlbiBlY2hvICJVc2VycyBhbHJlYWR5IGNyZWF0ZWQiOyBlbHNlIG1rZGlyIFVzZXJzOyBmaSAmJiBpZiBbIC1kICIvdG1wLyQyIiBdOyB0aGVuICJlY2hvIC90bXAvJDIgYWxyZWFkeSBjcmVhdGVkIjsgZWxzZSBta2RpciAvdG1wLyQyOyBmaSAmJiBnaXQgY2xvbmUgJDMgL3RtcC8kMiAgLS1wcm9ncmVzcyA7IGNwIC1STCAvdG1wLyQyLyAuL1VzZXJzLzsgZWNobyAnZGVwbG95bWV0IGNvbXBsZXRlJzs=",
                                 "scriptArguments": "[concat(parameters('computeInstance'), ' ', parameters('targetDirUnderUser'), ' ', parameters('gitRepo'))]"
                             }
                         }
